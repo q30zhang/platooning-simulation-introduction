@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "TruckModel.html",
+    "href": "TruckModel.html",
+    "title": "Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents the model structure in Matlab Simulink for truck dynamics. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components."
+  },
+  {
+    "objectID": "TruckModel.html#introduction",
+    "href": "TruckModel.html#introduction",
+    "title": "Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents the model structure in Matlab Simulink for truck dynamics. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components."
+  },
+  {
+    "objectID": "TruckModel.html#model-components",
+    "href": "TruckModel.html#model-components",
+    "title": "Truck Dynamics Model on Simulink",
+    "section": "2 2. Model components",
+    "text": "2 2. Model components\n\n2.1 2.1 Accelerating system\nThe accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behaviour with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.\n\n2.1.1 Powertrain Subsystem\nThe powertrain subsystem includes components such as the engine, transmission, and torque converter. The engine block simulates the engine’s torque output based on throttle input and engine speed. The transmission block models the gear shifting process, while the torque converter block simulates the torque multiplication effect during acceleration.\n\n\n2.1.2 Driveline Subsystem\nThe driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), the driveline subsystem includes components such as the differential, driveshaft, and axles. The differential block simulates the distribution of torque between the wheels, while the driveshaft and axle blocks model the mechanical connection between the engine and the wheels.\n\n\n\n2.2 2.2 Brake System\nThe brake system is represented by a block that takes the input from the driver (brake pedal input) and calculates the braking forces applied to the wheels. This block includes the brake dynamics, wheel slip control, and anti-lock braking system (ABS) features."
+  }
+]
