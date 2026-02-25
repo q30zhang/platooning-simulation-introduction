@@ -70,15 +70,17 @@ The `Tire2Veh` block converts the tire frame variables calculated by the *Combin
 
 ![Suspension System](images/suspension.png){#fig-suspension-system width=100%}
 
-The suspension system models the connection between the vehicle body and the wheels. It includes components such as the spring and damper blocks, which simulate the vertical motion of the suspension. The suspension geometry block models the kinematic relationships between the suspension components, while the suspension forces block calculates the forces transmitted through the suspension based on the vehicle's motion and road conditions.
+The suspension system uses the *wheels states*, *vehicle body states*, and the *steering angle command* to calculate the *forces* provided by the suspension springs and dampers that are applied back on the wheels and the vehicle body. The system includes adapter blocks, which extract and format the signals from the *wheels and tires model* and the *vehicle body model*, and the main [Solid Axle Suspension - Coil Spring](https://www.mathworks.com/help/releases/R2025b/vdynblks/ref/solidaxlesuspensioncoilspring.html) model with either 2 or 3 axles.
 
-### Vehicle Body {#vehicle-body}
+### Vehicle Body system {#vehicle-body-system}
 
-The vehicle body model simulates the main structure of the truck, including its mass, inertia, and aerodynamic properties. It includes blocks for calculating the vehicle's position, velocity, and angular motion in both the inertial frame and global frame. The body dynamics block models the translational and rotational motion of the vehicle, while the aerodynamic forces block simulates the effects of air resistance on the truck's motion.
+The vehicle body system takes in the suspension outputs and calculates the vehicle body states, which is then sent out as a BUS signal that is reused by all other systems introduced above, forming a feedback loop. The vehicle body system is modeled using the [Vehicle Body 6DOF Three Axles](https://www.mathworks.com/help/releases/R2025b/vdynblks/ref/vehiclebody6dofthreeaxles.html) model, with the external force, external moment, and wind force all set to zero.
+
+The output BUS signal includes the inertial frame variables values and body frame variables values, with details available [here](https://www.mathworks.com/help/releases/R2025b/vdynblks/ref/vehiclebody6dofthreeaxles.html#expand_accordion_body_mw_87924266-98e1-499a-a2c3-0ef2321d5d6f_sep_mw_87477e1d-eb6c-4fec-b1e0-a1c3d080db07).
 
 ## Scalability and Modularity {#scalability-and-modularity}
 
-The model is designed with scalability and modularity in mind, allowing for the addition of more complex components or subsystems in the future. For example, additional features such as advanced driver assistance systems (ADAS), vehicle-to-vehicle communication, or more detailed tire models can be integrated into the existing structure without significant modifications to the core components. This modular approach facilitates the development and testing of new features while maintaining the integrity of the overall model.
+This model is a basic version modified based on the original *6DOF truck-trailer dynamics* model. In both the modified model and the original model, many features are disabled by setting gains or constants blocks to zero. For the next step, the disabled features can be enabled by changing the corresponding parameters, and more complex models can be integrated into the current model structure. For example, the powertrain subsystem can be improved by integrating more complex powertrain models, such as those that consider transmission characteristics, torque vectoring, braking pressure determination based on deceleration, etc. Nevertheless, the current model structure is designed to be modular, allowing for easy integration of additional features or subsystems in the future.
 
 ## Testing {#testing}
 
