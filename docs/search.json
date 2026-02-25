@@ -19,5 +19,137 @@
     "title": "Truck Dynamics Model on Simulink",
     "section": "2 2. Model components",
     "text": "2 2. Model components\n\n2.1 2.1 Accelerating system\nThe accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behaviour with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.\n\n2.1.1 Powertrain Subsystem\nThe powertrain subsystem includes components such as the engine, transmission, and torque converter. The engine block simulates the engine’s torque output based on throttle input and engine speed. The transmission block models the gear shifting process, while the torque converter block simulates the torque multiplication effect during acceleration.\n\n\n2.1.2 Driveline Subsystem\nThe driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), the driveline subsystem includes components such as the differential, driveshaft, and axles. The differential block simulates the distribution of torque between the wheels, while the driveshaft and axle blocks model the mechanical connection between the engine and the wheels.\n\n\n\n2.2 2.2 Brake System\nThe brake system is represented by a block that takes the input from the driver (brake pedal input) and calculates the braking forces applied to the wheels. This block includes the brake dynamics, wheel slip control, and anti-lock braking system (ABS) features."
+  },
+  {
+    "objectID": "ImprovedTruckModel.html",
+    "href": "ImprovedTruckModel.html",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents a basic truck dynamics model structure in Matlab Simulink, constructed by editing the existing Simulink model 6DOF truck-trailer dynamics in the Truck Platooning project. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.\nThe purpose of this model is to simulate the dynamic behavior of a truck under various driving conditions, including acceleration, braking, and steering. The model can be used for testing control algorithms, analyzing vehicle performance, and evaluating different control algorithms such as PID controller and MPC controller. The modular design of the model allows for easy integration of additional features or subsystems in the future, such as advanced driver assistance systems (ADAS) or vehicle-to-vehicle communication.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "ImprovedTruckModel.html#introduction",
+    "href": "ImprovedTruckModel.html#introduction",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents a basic truck dynamics model structure in Matlab Simulink, constructed by editing the existing Simulink model 6DOF truck-trailer dynamics in the Truck Platooning project. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.\nThe purpose of this model is to simulate the dynamic behavior of a truck under various driving conditions, including acceleration, braking, and steering. The model can be used for testing control algorithms, analyzing vehicle performance, and evaluating different control algorithms such as PID controller and MPC controller. The modular design of the model allows for easy integration of additional features or subsystems in the future, such as advanced driver assistance systems (ADAS) or vehicle-to-vehicle communication.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "ImprovedTruckModel.html#overall-model-structure",
+    "href": "ImprovedTruckModel.html#overall-model-structure",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "2 Model Assumption and Overall Structure",
+    "text": "2 Model Assumption and Overall Structure\nThe truck dynamic model takes the desired acceleration and steering angle as inputs. By simulating the truck’s response, the model outputs the truck’s position, velocity and angular motion in both its inertial frame and global frame, as well as the forces and moments acting on the suspension and wheels. The output signals are packed into a bus for further processing and vehicle-to-vehicle communication. The model is structured to allow for modularity, enabling the addition of more complex components or subsystems in the future.\nThe dynamics of a real truck or most other ground vehicles contains three essential components, the vehicle body, the suspension system, and the wheels and tires. The vehicle body represents the main structure of the truck, while the suspension system models the interaction between the vehicle body and the wheels, including the forces and moments transmitted through the suspension components. The wheels and tires subsystem simulates the contact between the tires and the road surface, including tire forces and slip characteristics. The vehicle is driven by processing the control inputs through the accelerating and brake system. The interactions between these components are crucial for accurately simulating the truck’s dynamics and response to control inputs.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "ImprovedTruckModel.html#model-components",
+    "href": "ImprovedTruckModel.html#model-components",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "3 Model components",
+    "text": "3 Model components\n\n3.1 Accelerating and brake system\n\n3.1.1 Accelerating System\n\nThe accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behavior with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.\n\n3.1.1.1 Powertrain Subsystem\n\nThe powertrain subsystem takes in the desired acceleration input, current axle power consumption and wheel angular velocity, and calculates the required total axle torque. Currently, with only one forward gear option, the powertrain subsystem is modeled as a simple proportional controller that calculates the required axle torque based on the desired acceleration and current wheel angular velocity, with consideration of the engine power limit and the axle torque limit. In the future, the proportional gain can be tuned to achieve the desired response by integrating more complex powertrain models, such as those that consider engine dynamics, transmission characteristics, and wheel rotational kinematics.\n\n\n3.1.1.2 Driveline Subsystem\n\nThe driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), torque distribution is managed accordingly. Based on the gear (currently only one forward gear and one backward gear), the driveline subsystem manage the sign of the torque at each driven axle. The driveline subsystem outputs the torque applied to each driven wheel, which is then used by the wheels and tires system to calculate the forces generated by the tires.\n\n\n\n3.1.2 Brake System\nThe current brake system is a simple hydraulic system with fixed braking pressure, 200 kPa at front wheels and 1 MPa at rear wheels. When a negative acceleration is input, the brake system is activated and applies the corresponding braking forces to the wheels. In the future, the brake system can be improved by including the brake dynamics, wheel slip control, differential braking (DB), and anti-lock braking system (ABS) features.\n\n\n\n3.2 Wheels and Tires System\nThe wheels and tires system simulates the interaction between the tires and the road surface. It includes components such as the tire model, which calculates the forces and moments generated by the tires based on slip and road conditions. The wheel dynamics block models the rotational motion of the wheels, while the tire-road interaction block simulates the contact patch and friction characteristics.\n\n\n3.3 Suspension System\nThe suspension system models the connection between the vehicle body and the wheels. It includes components such as the spring and damper blocks, which simulate the vertical motion of the suspension. The suspension geometry block models the kinematic relationships between the suspension components, while the suspension forces block calculates the forces transmitted through the suspension based on the vehicle’s motion and road conditions.\n\n\n3.4 Vehicle Body\nThe vehicle body model simulates the main structure of the truck, including its mass, inertia, and aerodynamic properties. It includes blocks for calculating the vehicle’s position, velocity, and angular motion in both the inertial frame and global frame. The body dynamics block models the translational and rotational motion of the vehicle, while the aerodynamic forces block simulates the effects of air resistance on the truck’s motion.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "ImprovedTruckModel.html#scalability-and-modularity",
+    "href": "ImprovedTruckModel.html#scalability-and-modularity",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "4 Scalability and Modularity",
+    "text": "4 Scalability and Modularity\nThe model is designed with scalability and modularity in mind, allowing for the addition of more complex components or subsystems in the future. For example, additional features such as advanced driver assistance systems (ADAS), vehicle-to-vehicle communication, or more detailed tire models can be integrated into the existing structure without significant modifications to the core components. This modular approach facilitates the development and testing of new features while maintaining the integrity of the overall model.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "ImprovedTruckModel.html#conclusion",
+    "href": "ImprovedTruckModel.html#conclusion",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "5 Conclusion",
+    "text": "5 Conclusion\nIn conclusion, the truck model provides a comprehensive framework for simulating the dynamic behavior of a truck under various driving conditions. Its modular design allows for easy integration of new features and subsystems, making it a valuable tool for testing and evaluating advanced control algorithms and vehicle performance.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Improved Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html",
+    "href": "BasicTruckModel.html",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents a basic truck dynamics model structure in Matlab Simulink, constructed by editing the existing Simulink model 6DOF truck-trailer dynamics in the Truck Platooning project. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.\nThe purpose of this model is to simulate the dynamic behavior of a truck under various driving conditions, including acceleration, braking, and steering. The model can be used for testing control algorithms, analyzing vehicle performance, and evaluating different control algorithms such as PID controller and MPC controller. The modular design of the model allows for easy integration of additional features or subsystems in the future, such as advanced driver assistance systems (ADAS) or vehicle-to-vehicle communication.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html#introduction",
+    "href": "BasicTruckModel.html#introduction",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "",
+    "text": "This document presents a basic truck dynamics model structure in Matlab Simulink, constructed by editing the existing Simulink model 6DOF truck-trailer dynamics in the Truck Platooning project. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.\nThe purpose of this model is to simulate the dynamic behavior of a truck under various driving conditions, including acceleration, braking, and steering. The model can be used for testing control algorithms, analyzing vehicle performance, and evaluating different control algorithms such as PID controller and MPC controller. The modular design of the model allows for easy integration of additional features or subsystems in the future, such as advanced driver assistance systems (ADAS) or vehicle-to-vehicle communication.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html#overall-model-structure",
+    "href": "BasicTruckModel.html#overall-model-structure",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "2 Model Assumption and Overall Structure",
+    "text": "2 Model Assumption and Overall Structure\nThe truck dynamic model takes the desired acceleration and steering angle as inputs. By simulating the truck’s response, the model outputs the truck’s position, velocity and angular motion in both its inertial frame and global frame, as well as the forces and moments acting on the suspension and wheels. The output signals are packed into a bus for further processing and vehicle-to-vehicle communication. The model is structured to allow for modularity, enabling the addition of more complex components or subsystems in the future.\nThe dynamics of a real truck or most other ground vehicles contains three essential components, the vehicle body, the suspension system, and the wheels and tires. The vehicle body represents the main structure of the truck, while the suspension system models the interaction between the vehicle body and the wheels, including the forces and moments transmitted through the suspension components. The wheels and tires subsystem simulates the contact between the tires and the road surface, including tire forces and slip characteristics. The vehicle is driven by processing the control inputs through the accelerating and brake system. The interactions between these components are crucial for accurately simulating the truck’s dynamics and response to control inputs.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html#model-components",
+    "href": "BasicTruckModel.html#model-components",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "3 Model components",
+    "text": "3 Model components\n\n3.1 Accelerating and brake system\n\n3.1.1 Accelerating System\n\n\n\n\n\n\nFigure 1: Accelerating System\n\n\n\nThe accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behavior with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.\n\n3.1.1.1 Powertrain Subsystem\n\n\n\n\n\n\nFigure 2: Powertrain Subsystem\n\n\n\nThe powertrain subsystem takes in the desired acceleration input, current axle power consumption and wheel angular velocity, and calculates the required total axle torque. Currently, with only one forward gear option, the powertrain subsystem is modeled as a simple proportional controller that calculates the required axle torque based on the desired acceleration and current wheel angular velocity, with consideration of the engine power limit and the axle torque limit. In the future, the proportional gain can be tuned to achieve the desired response by integrating more complex powertrain models, such as those that consider engine dynamics, transmission characteristics, and wheel rotational kinematics.\n\n\n3.1.1.2 Driveline Subsystem\n\n\n\n\n\n\nFigure 3: Driveline Subsystem\n\n\n\nThe driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), torque distribution is managed accordingly. Based on the gear (currently only one forward gear and one backward gear), the driveline subsystem manage the sign of the torque at each driven axle. The driveline subsystem outputs the torque applied to each driven wheel, which is then used by the wheels and tires system to calculate the forces generated by the tires.\n\n\n\n3.1.2 Brake System\nThe brake system is a simple hydraulic system with fixed braking pressure, 200 kPa at front wheels and 1 MPa at rear wheels. When a negative acceleration is input, the brake system is activated and applies the corresponding braking forces to the wheels. In the future, the brake system can be improved by including the brake dynamics, wheel slip control, differential braking (DB), and anti-lock braking system (ABS) features.\n\n\n\n3.2 Wheels and Tires System\n\n\n\n\n\n\nFigure 4: Wheels and Tires System\n\n\n\nThe wheels and tires system takes in the axle torque and brake pressure commands, as well as the vehicle body states from the suspension outputs. It outputs the angular velocity of the wheels, the current power consumption of the wheel, and other wheel state variables including the longitudinal and lateral forces, vertical position and velocity, moments, and tire radius. After some conversion as shown in Figure 4, the main dynamics is handled in a subsystem with the same name, shown below in Figure 5.\n\n\n\n\n\n\nFigure 5: Wheels and Tires Subsystem\n\n\n\nHere, the Veh2Tire block simply converts vehicle state variables into tire frame variables, which are used by the Tire block which uses the Combined Slip Wheel 2DOF tire model with drum brake. The Tire block calculates the longitudinal and lateral forces using a magic-formula-based model, and then output a BUS signal containing all related tire states in the tire’s frame. The Tire2Veh block converts the tire frame variables back into vehicle frame variables, which are then used by the suspension system to calculate the forces transmitted to the vehicle body through the suspension components.\n\n3.2.1 Vehicle to Tire Frame Conversion\n\n\n\n\n\n\nFigure 6: Vehicle to Tire Frame Conversion\n\n\n\nThe Veh2Tire block converts the vehicle body states into tire frame variables. The input variables include steering angle and camber angle at each wheel corner, as well as the vehicle velocity in all directions. These variables are converted into the tire frame velocities in all directions. The axle torque, brake pressure, and yaw rate at each wheel corner are already in tire’s frame, so they are directly outputed without conversion.\n\n\n3.2.2 Tire Model\nThe Tire block implements the Combined Slip Wheel 2DOF model with drum brake. Details can be found in the mathwork documentation.\n\n\n3.2.3 Tire to Vehicle Frame Conversion\n\n\n\n\n\n\nFigure 7: Tire to Vehicle Frame Conversion\n\n\n\nThe Tire2Veh block converts the tire frame variables calculated by the Combined Slip Wheel 2DOF tire model back into vehicle frame variables. The output vehicle frame variables include the longitudinal and lateral forces, wheel angle, and suspension vertical position and velocity. Tire frame variables such as the tire rotational speed and the moments in the yaw direction are also outputed without conversion, as they are used by the suspension system to calculate the forces transmitted to the vehicle body.\n\n\n\n3.3 Suspension System\n\n\n\n\n\n\nFigure 8: Suspension System\n\n\n\nThe suspension system models the connection between the vehicle body and the wheels. It includes components such as the spring and damper blocks, which simulate the vertical motion of the suspension. The suspension geometry block models the kinematic relationships between the suspension components, while the suspension forces block calculates the forces transmitted through the suspension based on the vehicle’s motion and road conditions.\n\n\n3.4 Vehicle Body\nThe vehicle body model simulates the main structure of the truck, including its mass, inertia, and aerodynamic properties. It includes blocks for calculating the vehicle’s position, velocity, and angular motion in both the inertial frame and global frame. The body dynamics block models the translational and rotational motion of the vehicle, while the aerodynamic forces block simulates the effects of air resistance on the truck’s motion.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html#scalability-and-modularity",
+    "href": "BasicTruckModel.html#scalability-and-modularity",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "4 Scalability and Modularity",
+    "text": "4 Scalability and Modularity\nThe model is designed with scalability and modularity in mind, allowing for the addition of more complex components or subsystems in the future. For example, additional features such as advanced driver assistance systems (ADAS), vehicle-to-vehicle communication, or more detailed tire models can be integrated into the existing structure without significant modifications to the core components. This modular approach facilitates the development and testing of new features while maintaining the integrity of the overall model.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
+  },
+  {
+    "objectID": "BasicTruckModel.html#conclusion",
+    "href": "BasicTruckModel.html#conclusion",
+    "title": "Basic Unibody Truck Dynamics Model on Simulink",
+    "section": "5 Conclusion",
+    "text": "5 Conclusion\nIn conclusion, the truck model provides a comprehensive framework for simulating the dynamic behavior of a truck under various driving conditions. Its modular design allows for easy integration of new features and subsystems, making it a valuable tool for testing and evaluating advanced control algorithms and vehicle performance.",
+    "crumbs": [
+      "Truck Dynamics Models",
+      "Basic Truck Model"
+    ]
   }
 ]

@@ -1,8 +1,45 @@
 project:
-  type: default
+  type: website
   output-dir: docs
 format:
   html:
+    page-layout: full
     toc: true
     number-sections: true
-    number-depth: 4
+    number-depth: 5
+    theme: 
+      - cosmo
+      - custom.scss
+website:
+  title: "Platooning Simulation Notes"
+  sidebar:
+    style: "docked"
+    search: true
+    alignment: center
+    contents:
+    - section: "Truck Dynamics Models"
+      contents:
+        - text: "Basic Truck Model"
+          href: "BasicTruckModel.qmd"
+        - text: "Improved Truck Model"
+          href: "ImprovedTruckModel.qmd"
+    - section: "Control Algorithms"
+      contents:
+        - text: "Model Predictive Control (MPC)"
+          # href: "ModelPredictiveControl.qmd"
+        - text: "Longitudinal Control Design"
+          # href: "LongitudinalControlDesign.qmd"
+        - text: "Lateral Control Design"
+          # href: "LateralControlDesign.qmd"
+    - section: "Vehicle-to-Vehicle Communication"
+      contents:
+        - text: "V2V Communication Design"
+          # href: "V2VCommunicationDesign.qmd"
+        - text: "V2V Communication Simulation"
+          # href: "V2VCommunicationSimulation.qmd"
+    - section: "Platooning Control"
+      contents:
+        - text: "Platooning Control Design"
+          # href: "PlatooningControlDesign.qmd"
+        - text: "Platooning Control Simulation"
+          # href: "PlatooningControlSimulation.qmd"

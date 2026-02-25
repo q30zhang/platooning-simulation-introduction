@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Truck Dynamics Model on Simulink</title>
+<title>Basic Unibody Truck Dynamics Model on Simulink – Platooning Simulation Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,32 +23,178 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="TruckModel_files/libs/clipboard/clipboard.min.js"></script>
-<script src="TruckModel_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="TruckModel_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="TruckModel_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="TruckModel_files/libs/quarto-html/popper.min.js"></script>
-<script src="TruckModel_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="TruckModel_files/libs/quarto-html/anchor.min.js"></script>
-<link href="TruckModel_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="TruckModel_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="TruckModel_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="TruckModel_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="TruckModel_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2f7dc148a64a769457da4a411e3bcf49.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
 
 </head>
 
-<body class="quarto-light">
+<body class="nav-sidebar docked quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./BasicTruckModel.html">Truck Dynamics Models</a></li><li class="breadcrumb-item"><a href="./BasicTruckModel.html">Basic Truck Model</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Platooning Simulation Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Truck Dynamics Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./BasicTruckModel.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Basic Truck Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ImprovedTruckModel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Improved Truck Model</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Control Algorithms</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+ <span class="menu-text">Model Predictive Control (MPC)</span>
+  </li>
+          <li class="sidebar-item">
+ <span class="menu-text">Longitudinal Control Design</span>
+  </li>
+          <li class="sidebar-item">
+ <span class="menu-text">Lateral Control Design</span>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Vehicle-to-Vehicle Communication</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+ <span class="menu-text">V2V Communication Design</span>
+  </li>
+          <li class="sidebar-item">
+ <span class="menu-text">V2V Communication Simulation</span>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Platooning Control</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+ <span class="menu-text">Platooning Control Design</span>
+  </li>
+          <li class="sidebar-item">
+ <span class="menu-text">Platooning Control Simulation</span>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction and Objective</a></li>
-  <li><a href="#overall-model-structure" id="toc-overall-model-structure" class="nav-link" data-scroll-target="#overall-model-structure"><span class="header-section-number">2</span> Overall Model Structure</a></li>
+  <li><a href="#overall-model-structure" id="toc-overall-model-structure" class="nav-link" data-scroll-target="#overall-model-structure"><span class="header-section-number">2</span> Model Assumption and Overall Structure</a></li>
   <li><a href="#model-components" id="toc-model-components" class="nav-link" data-scroll-target="#model-components"><span class="header-section-number">3</span> Model components</a>
   <ul class="collapse">
   <li><a href="#accelerating-and-brake-system" id="toc-accelerating-and-brake-system" class="nav-link" data-scroll-target="#accelerating-and-brake-system"><span class="header-section-number">3.1</span> Accelerating and brake system</a></li>
@@ -60,17 +206,18 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">5</span> Conclusion</a></li>
   </ul>
 </nav>
-</div>
-<main class="content" id="quarto-document-content">
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./BasicTruckModel.html">Truck Dynamics Models</a></li><li class="breadcrumb-item"><a href="./BasicTruckModel.html">Basic Truck Model</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Truck Dynamics Model on Simulink</h1>
+<h1 class="title">Basic Unibody Truck Dynamics Model on Simulink</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -84,13 +231,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction and Objective</h2>
-<p>This document presents the model structure in Matlab Simulink for truck dynamics. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.</p>
+<p>This document presents a basic truck dynamics model structure in Matlab Simulink, constructed by editing the existing Simulink model <em>6DOF truck-trailer dynamics</em> in the <a href="https://www.mathworks.com/help/driving/ug/truck-platooning-using-vehicle-to-vehicle-communication.html">Truck Platooning project</a>. The model includes components such as the accelerating/brake system, wheels and tires system, suspension system, and vehicle body system. The Simulink blocks are organized to represent the physical interactions between these components.</p>
 <p>The purpose of this model is to simulate the dynamic behavior of a truck under various driving conditions, including acceleration, braking, and steering. The model can be used for testing control algorithms, analyzing vehicle performance, and evaluating different control algorithms such as PID controller and MPC controller. The modular design of the model allows for easy integration of additional features or subsystems in the future, such as advanced driver assistance systems (ADAS) or vehicle-to-vehicle communication.</p>
 </section>
 <section id="overall-model-structure" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="overall-model-structure"><span class="header-section-number">2</span> Overall Model Structure</h2>
+<h2 data-number="2" class="anchored" data-anchor-id="overall-model-structure"><span class="header-section-number">2</span> Model Assumption and Overall Structure</h2>
 <p>The truck dynamic model takes the desired <em>acceleration</em> and <em>steering angle</em> as inputs. By simulating the truck’s response, the model outputs the truck’s position, velocity and angular motion in both its inertial frame and global frame, as well as the forces and moments acting on the suspension and wheels. The output signals are packed into a bus for further processing and vehicle-to-vehicle communication. The model is structured to allow for modularity, enabling the addition of more complex components or subsystems in the future.</p>
-<p>The dynamics of a real truck or most other ground vehicles contains three essential components, the <strong>vehicle body</strong>, the <strong>suspension system</strong>, and the <strong>wheels and tires</strong>. The vehicle body represents the main structure of the truck, while the suspension system models the interaction between the vehicle body and the wheels, including the forces and moments transmitted through the suspension components. The wheels and tires subsystem simulates the contact between the tires and the road surface, including tire forces and slip characteristics. The vehicle is driven by control inputs from the driver, which are processed by the <strong>accelerating and brake system</strong>. The interactions between these components are crucial for accurately simulating the truck’s dynamics and response to driver inputs.</p>
+<p>The dynamics of a real truck or most other ground vehicles contains three essential components, the <strong>vehicle body</strong>, the <strong>suspension system</strong>, and the <strong>wheels and tires</strong>. The vehicle body represents the main structure of the truck, while the suspension system models the interaction between the vehicle body and the wheels, including the forces and moments transmitted through the suspension components. The wheels and tires subsystem simulates the contact between the tires and the road surface, including tire forces and slip characteristics. The vehicle is driven by processing the control inputs through the <strong>accelerating and brake system</strong>. The interactions between these components are crucial for accurately simulating the truck’s dynamics and response to control inputs.</p>
 </section>
 <section id="model-components" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="model-components"><span class="header-section-number">3</span> Model components</h2>
@@ -98,27 +245,120 @@ ul.task-list li input[type="checkbox"] {
 <h3 data-number="3.1" class="anchored" data-anchor-id="accelerating-and-brake-system"><span class="header-section-number">3.1</span> Accelerating and brake system</h3>
 <section id="accelerating-system" class="level4" data-number="3.1.1">
 <h4 data-number="3.1.1" class="anchored" data-anchor-id="accelerating-system"><span class="header-section-number">3.1.1</span> Accelerating System</h4>
-<p>The accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behaviour with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.</p>
-<section id="powertrain-subsystem" class="level5">
-<h5 class="anchored" data-anchor-id="powertrain-subsystem">Powertrain Subsystem</h5>
-<p>The powertrain subsystem includes components such as the engine, transmission, and torque converter. The engine block simulates the engine’s torque output based on throttle input and engine speed. The transmission block models the gear shifting process, while the torque converter block simulates the torque multiplication effect during acceleration.</p>
+<div id="fig-accelerating-system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-accelerating-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/accelerating.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-accelerating-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Accelerating System
+</figcaption>
+</figure>
+</div>
+<p>The accelerating system consists of a powertrain subsystem and a driveline subsystem. The powertrain subsystem simulates the accelerating behavior with consideration of realistic limit and output the requested total axle torque to the driveline subsystem. The driveline subsystem, choosing from Front Wheel Drive (FWD), Rear Wheel Drive (RWD), or All Wheel Drive (AWD) configurations, models the transfer of power from the engine to the wheels.</p>
+<section id="powertrain-subsystem" class="level5" data-number="3.1.1.1">
+<h5 data-number="3.1.1.1" class="anchored" data-anchor-id="powertrain-subsystem"><span class="header-section-number">3.1.1.1</span> Powertrain Subsystem</h5>
+<div id="fig-powertrain-subsystem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-powertrain-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/powertrain.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-powertrain-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Powertrain Subsystem
+</figcaption>
+</figure>
+</div>
+<p>The powertrain subsystem takes in the desired acceleration input, current axle power consumption and wheel angular velocity, and calculates the required total axle torque. Currently, with only one forward gear option, the powertrain subsystem is modeled as a simple proportional controller that calculates the required axle torque based on the desired acceleration and current wheel angular velocity, with consideration of the engine power limit and the axle torque limit. In the future, the proportional gain can be tuned to achieve the desired response by integrating more complex powertrain models, such as those that consider engine dynamics, transmission characteristics, and wheel rotational kinematics.</p>
 </section>
-<section id="driveline-subsystem" class="level5">
-<h5 class="anchored" data-anchor-id="driveline-subsystem">Driveline Subsystem</h5>
-<p>The driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), the driveline subsystem includes components such as the differential, driveshaft, and axles. The differential block simulates the distribution of torque between the wheels, while the driveshaft and axle blocks model the mechanical connection between the engine and the wheels.</p>
+<section id="driveline-subsystem" class="level5" data-number="3.1.1.2">
+<h5 data-number="3.1.1.2" class="anchored" data-anchor-id="driveline-subsystem"><span class="header-section-number">3.1.1.2</span> Driveline Subsystem</h5>
+<div id="fig-driveline-subsystem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-driveline-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/driveline.png" class="img-fluid figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-driveline-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Driveline Subsystem
+</figcaption>
+</figure>
+</div>
+<p>The driveline subsystem models the power transfer from the engine to the wheels. Depending on the chosen configuration (FWD, RWD, AWD), torque distribution is managed accordingly. Based on the gear (currently only one forward gear and one backward gear), the driveline subsystem manage the sign of the torque at each driven axle. The driveline subsystem outputs the torque applied to each driven wheel, which is then used by the wheels and tires system to calculate the forces generated by the tires.</p>
 </section>
 </section>
 <section id="brake-system" class="level4" data-number="3.1.2">
 <h4 data-number="3.1.2" class="anchored" data-anchor-id="brake-system"><span class="header-section-number">3.1.2</span> Brake System</h4>
-<p>The brake system is represented by a block that takes the input from the driver (brake pedal input) and calculates the braking forces applied to the wheels. This block includes the brake dynamics, wheel slip control, and anti-lock braking system (ABS) features.</p>
+<p>The brake system is a simple hydraulic system with fixed braking pressure, 200 kPa at front wheels and 1 MPa at rear wheels. When a negative acceleration is input, the brake system is activated and applies the corresponding braking forces to the wheels. In the future, the brake system can be improved by including the brake dynamics, wheel slip control, differential braking (DB), and anti-lock braking system (ABS) features.</p>
 </section>
 </section>
 <section id="wheels-and-tires-system" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="wheels-and-tires-system"><span class="header-section-number">3.2</span> Wheels and Tires System</h3>
-<p>The wheels and tires system simulates the interaction between the tires and the road surface. It includes components such as the tire model, which calculates the forces and moments generated by the tires based on slip and road conditions. The wheel dynamics block models the rotational motion of the wheels, while the tire-road interaction block simulates the contact patch and friction characteristics.</p>
+<div id="fig-wheels-and-tires-system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wheels-and-tires-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/wheels_and_tires.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wheels-and-tires-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Wheels and Tires System
+</figcaption>
+</figure>
+</div>
+<p>The wheels and tires system takes in the <em>axle torque</em> and <em>brake pressure</em> commands, as well as the <em>vehicle body states</em> from the suspension outputs. It outputs the angular velocity of the wheels, the current power consumption of the wheel, and other wheel state variables including the longitudinal and lateral forces, vertical position and velocity, moments, and tire radius. After some conversion as shown in <a href="#fig-wheels-and-tires-system" class="quarto-xref">Figure&nbsp;4</a>, the main dynamics is handled in a subsystem with the same name, shown below in <a href="#fig-wheels-and-tires-subsystem" class="quarto-xref">Figure&nbsp;5</a>.</p>
+<div id="fig-wheels-and-tires-subsystem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wheels-and-tires-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/wheels_and_tires_sub.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wheels-and-tires-subsystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Wheels and Tires Subsystem
+</figcaption>
+</figure>
+</div>
+<p>Here, the <code>Veh2Tire</code> block simply converts vehicle state variables into tire frame variables, which are used by the <code>Tire</code> block which uses the <a href="https://www.mathworks.com/help/releases/R2025b/vdynblks/ref/combinedslipwheel2dof.html">Combined Slip Wheel 2DOF</a> tire model with drum brake. The <code>Tire</code> block calculates the longitudinal and lateral forces using a magic-formula-based model, and then output a BUS signal containing all related tire states in the tire’s frame. The <code>Tire2Veh</code> block converts the tire frame variables back into vehicle frame variables, which are then used by the suspension system to calculate the forces transmitted to the vehicle body through the suspension components.</p>
+<section id="vehicle-to-tire-frame-conversion" class="level4" data-number="3.2.1">
+<h4 data-number="3.2.1" class="anchored" data-anchor-id="vehicle-to-tire-frame-conversion"><span class="header-section-number">3.2.1</span> Vehicle to Tire Frame Conversion</h4>
+<div id="fig-veh2tire-conversion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-veh2tire-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/veh2tire_conversion.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-veh2tire-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Vehicle to Tire Frame Conversion
+</figcaption>
+</figure>
+</div>
+<p>The <code>Veh2Tire</code> block converts the vehicle body states into tire frame variables. The input variables include steering angle and camber angle at each wheel corner, as well as the vehicle velocity in all directions. These variables are converted into the tire frame velocities in all directions. The axle torque, brake pressure, and yaw rate at each wheel corner are already in tire’s frame, so they are directly outputed without conversion.</p>
+</section>
+<section id="tire-model" class="level4" data-number="3.2.2">
+<h4 data-number="3.2.2" class="anchored" data-anchor-id="tire-model"><span class="header-section-number">3.2.2</span> Tire Model</h4>
+<p>The <code>Tire</code> block implements the <a href="https://www.mathworks.com/help/releases/R2025b/vdynblks/ref/combinedslipwheel2dof.html">Combined Slip Wheel 2DOF</a> model with drum brake. Details can be found in the mathwork documentation.</p>
+</section>
+<section id="tire-to-vehicle-frame-conversion" class="level4" data-number="3.2.3">
+<h4 data-number="3.2.3" class="anchored" data-anchor-id="tire-to-vehicle-frame-conversion"><span class="header-section-number">3.2.3</span> Tire to Vehicle Frame Conversion</h4>
+<div id="fig-tire2veh-conversion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tire2veh-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/tire2veh_conversion.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tire2veh-conversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Tire to Vehicle Frame Conversion
+</figcaption>
+</figure>
+</div>
+<p>The <code>Tire2Veh</code> block converts the tire frame variables calculated by the <em>Combined Slip Wheel 2DOF</em> tire model back into vehicle frame variables. The output vehicle frame variables include the longitudinal and lateral forces, wheel angle, and suspension vertical position and velocity. Tire frame variables such as the tire rotational speed and the moments in the yaw direction are also outputed without conversion, as they are used by the suspension system to calculate the forces transmitted to the vehicle body.</p>
+</section>
 </section>
 <section id="suspension-system" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="suspension-system"><span class="header-section-number">3.3</span> Suspension System</h3>
+<div id="fig-suspension-system" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-suspension-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/suspension.png" class="img-fluid figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-suspension-system-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Suspension System
+</figcaption>
+</figure>
+</div>
 <p>The suspension system models the connection between the vehicle body and the wheels. It includes components such as the spring and damper blocks, which simulate the vertical motion of the suspension. The suspension geometry block models the kinematic relationships between the suspension components, while the suspension forces block calculates the forces transmitted through the suspension based on the vehicle’s motion and road conditions.</p>
 </section>
 <section id="vehicle-body" class="level3" data-number="3.4">
@@ -133,10 +373,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="conclusion" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">5</span> Conclusion</h2>
 <p>In conclusion, the truck model provides a comprehensive framework for simulating the dynamic behavior of a truck under various driving conditions. Its modular design allows for easy integration of new features and subsystems, making it a valuable tool for testing and evaluating advanced control algorithms and vehicle performance.</p>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
